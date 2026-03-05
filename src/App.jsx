@@ -90,7 +90,7 @@ export default function App() {
   };
 
   const handleConsult = () => {
-    window.location.href = "mailto:expert@tarotconsult.com?subject=심층 배열법 상담 요청&body=안녕하세요, 조금 더 깊은 타로 상담을 받고 싶습니다.";
+    alert("준비 중인 프리미엄(유료) 기능입니다. \n조금만 기다려주세요! 🔮✨");
   };
 
   return (
