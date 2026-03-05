@@ -44,28 +44,48 @@ export default function App() {
       });
       const image = canvas.toDataURL('image/png');
 
-      // Attempt native share
-      if (navigator.share) {
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+      // Attempt native share (mostly works on mobile)
+      if (navigator.share && isMobile) {
         try {
           const blob = await (await fetch(image)).blob();
           const file = new File([blob], 'tarot_card.png', { type: 'image/png' });
-          await navigator.share({
-            title: '나의 타로 수호 카드',
-            files: [file]
-          });
-          return;
+
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({
+              title: '오늘의 수호 카드',
+              text: '나만의 타로 수호 카드를 뽑아보세요! 🔮',
+              files: [file]
+            });
+            return;
+          } else {
+            // Fallback if file sharing is not supported by the browser but text/url is
+            await navigator.share({
+              title: '오늘의 수호 카드 🔮',
+              text: '저의 수호 카드를 확인해보세요!',
+              url: window.location.href
+            });
+            // Still download the image since they can't share it natively
+          }
         } catch (e) {
-          console.log("Native share failed, downloading instead.");
+          if (e.name === 'AbortError') return; // User cancelled share explicitly
+          console.log("Native share failed:", e);
         }
       }
 
+      // Fallback: Download image (PC and unsupported mobile browsers)
       const link = document.createElement('a');
       link.download = 'my-tarot-card.png';
       link.href = image;
       link.click();
+
+      if (!isMobile) {
+        alert("이미지가 기기에 저장되었습니다! \n다운로드된 이미지를 인스타그램 스토리에 올려보세요 📸");
+      }
     } catch (err) {
       console.error("Capture failed", err);
-      alert("이미지 저장에 실패했습니다.");
+      alert("이미지 처리 중 오류가 발생했습니다.");
     }
   };
 
