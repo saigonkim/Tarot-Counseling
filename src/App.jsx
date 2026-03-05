@@ -164,7 +164,7 @@ export default function App() {
                 className="relative w-full h-full max-h-full flex items-center justify-center"
               >
                 <img
-                  src={drawnCard.image_url}
+                  src={encodeURI(drawnCard.image_url)}
                   alt={drawnCard.name}
                   className="max-w-full max-h-full w-auto h-auto rounded-xl card-shadow object-contain border border-white/10"
                 />
