@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import tarotData from './data/tarotData.json';
 import { motion, AnimatePresence } from 'framer-motion';
-import html2canvas from 'html2canvas';
+import { toPng } from 'html-to-image';
 import { Share, MessageCircle, Sparkles, RefreshCw } from 'lucide-react';
 import './index.css';
 
@@ -37,12 +37,11 @@ export default function App() {
   const handleShare = async () => {
     if (!captureRef.current) return;
     try {
-      const canvas = await html2canvas(captureRef.current, {
-        scale: 2,
-        useCORS: true,
+      const image = await toPng(captureRef.current, {
+        cacheBust: true,
+        pixelRatio: 2,
         backgroundColor: null
       });
-      const image = canvas.toDataURL('image/png');
 
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
