@@ -167,7 +167,6 @@ export default function App() {
                   src={drawnCard.image_url}
                   alt={drawnCard.name}
                   className="max-w-full max-h-full w-auto h-auto rounded-xl card-shadow object-contain border border-white/10"
-                  crossOrigin="anonymous"
                 />
               </motion.div>
             </div>
@@ -176,7 +175,7 @@ export default function App() {
 
             {/* Footer Watermark */}
             <div className="text-[10px] text-indigo-200/30 tracking-widest mb-1 z-10 w-full text-center border-t border-white/10 pt-3">
-              tarot-consult.web.app
+              tarot-counseling.vercel.app
             </div>
           </div>
 
